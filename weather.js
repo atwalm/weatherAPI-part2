@@ -1,6 +1,7 @@
 
 function onloadFunc(){
-    const resp = JSON.parse(this.response);
+    //const resp = JSON.parse(this.response);
+    const resp = JSON.parse(this.response).body;
       console.log(resp.coord);
 
 
@@ -29,7 +30,7 @@ function onloadFunc(){
 
 
     if (resp.weather) {
-      var imgURL = "http://openweathermap.org/img/w/" + resp.weather[0].icon + ".png";
+      var imgURL = "https://openweathermap.org/img/w/" + resp.weather[0].icon + ".png";
       console.log(imgURL)
       $("#weatherImg").attr("src", imgURL);
       $("#weather-text").html(resp.weather[0].description);
@@ -50,8 +51,8 @@ function onloadFunc(){
 
 function getWeather(lat, lon) {
 //function getWeather(locObj) {
-  var apiURI = "http://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=06170c100199dbae1e223cc3dfad960b";
-//  let apiURI = `http://api.openweathermap.org/data/2.5/weather?lat=${locObj.lat}&lon=${locObj.lon}&APPID=178c8ef1013d5657ddfcc24ccf0e544c`;
+let apiURI = `https://uwpce-weather-proxy.herokuapp.com/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=178c8ef1013d5657ddfcc24ccf0e544c`;
+//let apiURI = `https://uwpce-weather-proxy.herokuapp.com/data/2.5/weather?lat=${locObj.lat}&lon=${locObj.lon}&APPID=178c8ef1013d5657ddfcc24ccf0e544c`;
 
 
         let request = new XMLHttpRequest();
@@ -85,8 +86,6 @@ var updateinter = setInterval(function(){
   if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(function(position) {
     getWeather(position.coords.latitude, position.coords.longitude);
-    /*  const newPos = {lat:position.coords.latitude, lon: position.coords.longitude};
-      getWeather(newPos);*/
     })
   } else {
     alert("geolocation not available" + e);
